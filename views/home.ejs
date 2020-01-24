@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
+    <script src=https://maps.googleapis.com/maps/api/js?key=AIzaSyAbIVUSDhH7BP855JZLXKbKp8ASPY2yGzk&v=3.exp&sensor=false&libraries=places"></script>
   </head>
   <body>
     <aside class="side-nav" id="show-side-navigation1">
@@ -286,13 +287,6 @@
 </span>
 
 <span class="input col-sm-4">
-  <input type="number" class="input__field" id="input-5" name="cut_land" required />
-  <label for="input-5" class="input__label">
-  <span class="input__label-content">Cultivated Land (in acres)</span>
-  </label>
-</span>
-
-<span class="input col-sm-4">
   <input type="text" class="input__field" id="input-6" name="name_of_occupant" required />
   <label for="input-6" class="input__label">
   <span class="input__label-content">Name of Occupant</span>
@@ -314,14 +308,22 @@
 </span>
 
 <span class="input col-sm-4">
-    <input type="number" class="input__field" id="input-9" name="B_s_marks" required></input>
+    <input type="number" class="input__field" id="input-9" name="phone" required></input>
     <label for="input-9" class="input__label">
-    <span class="input__label-content">Boundary and Survey marks</span>
+    <span class="input__label-content">phone</span>
     </label>
 </span>
 
+
+<span class="input col-sm-4">
+  <input class="searchTextField input__field" id="input-10" name="Address" required></input>
+  <label for="input-10" class="input__label">
+  <span class="input__label-content">Address</span>
+  </label>
+</span>
+
 <span class="col-lg-6" style="padding-left: 220px;">
-<button id="send-button" type="submit">Generate Form</button></span>
+<button id="send-button" type="submit">Request for approval!!</button></span>
 
 </section>
 </form>
@@ -955,6 +957,16 @@ body {background-color: #2a2b3d}
 
 
 <script>
+
+
+function initialize() {
+  var input = document.getElementsByClassName('searchTextField');
+  new google.maps.places.Autocomplete(input);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+
 /*global $, console*/
 /*
   By Mostafa Omar
