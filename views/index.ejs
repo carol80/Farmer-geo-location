@@ -70,14 +70,13 @@
       
       var myaddress = document.getElementById("myaddress").innerHTML
       console.log(myaddress)
-      // var ob = getLatLong(myaddress)
+      var ob = getLatLong(myaddress)
       // console.log(ob)
       var map = new mapboxgl.Map({
         container: "map", // container id
         style: "mapbox://styles/mapbox/satellite-v9", //hosted style id
-        // center: [ ob.lng , ob.lat ], // starting position
-        center: [ 72.993477 , 19.157934],
-        zoom: 17// starting zoom
+        center: [ ob.lng , ob.lat ], // starting position
+        zoom: 12 // starting zoom
       });
 
       var draw = new MapboxDraw({
@@ -154,7 +153,7 @@
         geocoder.geocode(geocodingParams, onResult, function(e) {
           alert(e);
         });
-        console.log(geocoder)
+
       }
 
       

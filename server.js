@@ -25,7 +25,7 @@ app.set('view engine', 'ejs')
 
 // We also want to send css, images, and other static files
 app.use(express.static('views'))
-// app.set('views', __dirname + '/views')
+app.set('views', __dirname + '/views')
 
 // Give the server access to the user input
 app.use(bodyParser.json())
@@ -49,26 +49,27 @@ app.get('/', function(request, response){
 })
 
 app.post('/', (req, res) => {
-    // var result = {
-    //     "village" : req.body.village,
-    //     "survey_no" : req.body.survey_no,
-    //     "sub_division_of" : req.body.sub_division_of,
-    //     "taluka" : req.body.taluka,
-    //     "cut_land" : req.body.cut_land,
-    //     "name_of_occupant" : req.body.name_of_occpuant,
-    //     "khata_no" : req.body.khata_no,
-    //     "name_of_the_rent" : req.body.name_of_the_rent,
-    //     "phone" : req.body.From,
-    //     "pending" : "0",
-    // } 
+    var result = {
+        "village" : req.body.village,
+        "survey_no" : req.body.survey_no,
+        "sub_division_of" : req.body.sub_division_of,
+        "taluka" : req.body.taluka,
+        "cut_land" : req.body.cut_land,
+        "name_of_occupant" : req.body.name_of_occpuant,
+        "khata_no" : req.body.khata_no,
+        "name_of_the_rent" : req.body.name_of_the_rent,
+        "phone" : req.body.From,
+        "pending" : "0",
+    } 
 
-    // database.ref('pending/'+ "whatsapp:" + req.body.phone).set(result);
-  var address = ""
+    database.ref('pending/'+ "whatsapp:" + req.body.phone).set(result);
+})
 
-// Write function to get lat and lang Passs address 
-    address = req.body.address
+// Write function to get lat and lang Passs address
+app.get("index", (req , res) => {
+    var address = req.body.address
     console.log(address)
-    res.render('index',{data : address})
+    res.render('test', address)
 })
 
 
