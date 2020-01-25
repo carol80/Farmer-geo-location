@@ -108,42 +108,42 @@
       }
     </script>
     <script>
-      function getLatLong(<%= address %>){
-        var platform = new H.service.Platform({
-          'apikey': "SwDJ59x3TPwJ50nKgrdw1mK_yU0t4NbxEZXw0MaP4gw"
-        });
+      // function getLatLong(<%= address %>){
+      //   var platform = new H.service.Platform({
+      //     'apikey': "SwDJ59x3TPwJ50nKgrdw1mK_yU0t4NbxEZXw0MaP4gw"
+      //   });
         
-        var maptypes = platform.createDefaultLayers();
-        var map = new H.Map(document.getElementById('map'), maptypes.vector.normal.map, {
-        center: {lat: 37.688, lng: 122.036},
-                  zoom: 10
-                });
+      //   var maptypes = platform.createDefaultLayers();
+      //   var map = new H.Map(document.getElementById('map'), maptypes.vector.normal.map, {
+      //   center: {lat: 37.688, lng: 122.036},
+      //             zoom: 10
+      //           });
 
-        // Create the parameters for the geocoding request:
-        var geocodingParams = {
-              searchText: <%= address %>
-        };
-        console.log( <%= address %>)
-        var onResult = function(result) {
-          var locations = result.Response.View[0].Result,
-          position,
-          marker;
+      //   // Create the parameters for the geocoding request:
+      //   var geocodingParams = {
+      //         searchText: <%= address %>
+      //   };
+      //   console.log( <%= address %>)
+      //   var onResult = function(result) {
+      //     var locations = result.Response.View[0].Result,
+      //     position,
+      //     marker;
 
-          return {"lat" : locations[i].Location.DisplayPosition.Latitude, 
-                  "lng" : locations[i].Location.DisplayPosition.Longitude}
-        };
+      //     return {"lat" : locations[i].Location.DisplayPosition.Latitude, 
+      //             "lng" : locations[i].Location.DisplayPosition.Longitude}
+      //   };
 
-        // Get an instance of the geocoding service:
-        var geocoder = platform.getGeocodingService();
+      //   // Get an instance of the geocoding service:
+      //   var geocoder = platform.getGeocodingService();
 
-        // Call the geocode method with the geocoding parameters,
-        // the callback and an error callback function (called if a
-        // communication error occurs):
-        geocoder.geocode(geocodingParams, onResult, function(e) {
-          alert(e);
-        });
+      //   // Call the geocode method with the geocoding parameters,
+      //   // the callback and an error callback function (called if a
+      //   // communication error occurs):
+      //   geocoder.geocode(geocodingParams, onResult, function(e) {
+      //     alert(e);
+      //   });
 
-      }
+      // }
      
 
     </script>

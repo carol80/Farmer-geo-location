@@ -74,7 +74,34 @@ app.post('/', (req, res) => {
     res.render('index',data)
 })
 
+app.get("/getmap", function(req, res) {
+  res.render("index");
+});
 
+app.post("/getmap", function(req, res) {
+  arr = req.body.carol;
+
+  console.log(arr);
+  res.json({ status: "Done" });
+});
+
+app.post("/saveCoordinate", function(req, res) {
+  var whatsapp = "+919594246827";
+  var setDoc = database
+    .ref("pending/" + whatsapp)
+    .set({ coordinates: req.body.coordinate, area: req.body.area });
+  console.log(req.body);
+});
+
+app.post("/farm_result", function(req, res) {
+  let whatsapp = req.body.submit;
+  console.log(whatsapp);
+  database.ref("pending/" + whatsapp).once("value", function(result) {
+    var farm_details = result.val();
+    console.log(farm_details);
+    res.render("farm_result", mydata = farm_details);
+  });
+});
 
 app.use(session({secret: 'anything-you-want-but-keep-secret'}));
 
