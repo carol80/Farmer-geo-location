@@ -49,8 +49,7 @@ app.get('/', function(request, response){
     // })
 })
 
-app.post('/generate_form',function(req, res){
-    user_id = 1;
+app.post('/generate_form', (req, res) => {
     var result = {
         "village" : req.body.village,
         "survey_no" : req.body.survey_no,
@@ -60,12 +59,21 @@ app.post('/generate_form',function(req, res){
         "name_of_occupant" : req.body.name_of_occpuant,
         "khata_no" : req.body.khata_no,
         "name_of_the_rent" : req.body.name_of_the_rent,
-        "B_s_marks" : req.body.B_s_marks,
+        "phone" : req.body.From,
+        "pending" : "0",
     } 
 
-    database.ref('pending/'+ "whatsapp:" + req.body.phone).set(req.body);
+    database.ref('pending/'+ "whatsapp:" + req.body.phone).set(result);
 
-    res.render('7-12-doc', {result});
+    var addressesArray = req.body.address
+    for (var x = 0; x < addressesArray.length; x++) {
+        $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address='+addressesArray[x]+'&sensor=false', null, function (data) {
+          var p = data.results[0].geometry.location
+        });
+    }
+
+    console.log(data)
+    res.render('index',data)
 })
 
 
@@ -138,6 +146,7 @@ app.post('/sms', async (req, res) => {
         "name_of_occupant" : obj1[5],
         "khata_no" : obj1[6],
         "name_of_the_rent" : obj1[7],
+        "phone" : req.body.From,
         "pending" : "0",
       };
       return pending;
