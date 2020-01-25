@@ -51,6 +51,9 @@ app.get('/', function(request, response){
     // })
 })
 
+
+
+
 app.post('/generate_form', (req, res) => {
     var result = {
         "village" : req.body.village,
