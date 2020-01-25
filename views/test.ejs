@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="map" style="width: 100vw ; height: 100vh"></div>
+    <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+        apiKey: "AIzaSyCxQk8lVJfoLVk_iYH_rz6PP4XZox_82XU",
+        authDomain: "agriculture-db.firebaseapp.com",
+        databaseURL: "https://agriculture-db.firebaseio.com",
+        projectId: "agriculture-db",
+        storageBucket: "agriculture-db.appspot.com",
+        messagingSenderId: "284098843173",
+        appId: "1:284098843173:web:5e2f3694809378be8225cc",
+        measurementId: "G-7LK7LKMJ73"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <script>
+
+
+var platform = new H.service.Platform({
+  'apikey': "SwDJ59x3TPwJ50nKgrdw1mK_yU0t4NbxEZXw0MaP4gw"
+});
+// Retrieve the target element for the map:
+var targetElement = document.getElementById('map');
+
+// Get default map types from the platform object:
+var maptypes = platform.createDefaultLayers();
+
+ 
+ var map = new H.Map(document.getElementById('map'), maptypes.vector.normal.map, {
+   center: {lat: 37.688, lng: 122.036},
+   zoom: 10
+ });
+
+// Create the parameters for the geocoding request:
+var geocodingParams = {
+      searchText : <%= address %>
+    };
+
+// Define a callback function to process the geocoding response:
+var onResult = function(result) {
+  var locations = result.Response.View[0].Result,
+      position,
+      marker;
+  // Add a marker for each location found
+
+    position = {
+      lat: locations[0].Location.DisplayPosition.Latitude,
+      lng: locations[0].Location.DisplayPosition.Longitude
+    };
+    console.log(position)
+    marker = new H.map.Marker(position);
+    map.addObject(marker);
+    firebase.database.ref("pending/").set({"position" : position})
+    // console.log( locations[i].Location.DisplayPosition.Latitude, locations[i].Location.DisplayPosition.Longitude)
+
+};
+
+// Get an instance of the geocoding service:
+var geocoder = platform.getGeocodingService();
+
+// Call the geocode method with the geocoding parameters,
+// the callback and an error callback function (called if a
+// communication error occurs):
+geocoder.geocode(geocodingParams, onResult, function(e) {
+  alert(e);
+});
+    </script>
+</body>
+</html>
