@@ -56,7 +56,6 @@
       href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css"
       type="text/css"
     />
-    <div id="myaddress"><%=data%></div>
     <div id="map"></div>
     <div class="calculation-box">
       <p>Draw a polygon using the draw tools.</p>
@@ -66,11 +65,7 @@
     <script>
        mapboxgl.accessToken =
         "pk.eyJ1IjoidHh0ciIsImEiOiJjazRmZTNldm4wbmZpM21uYW43Z292NmozIn0.9GHxkIq6wJ3I5LQBMMVedQ";
-
-      
-      var myaddress = document.getElementById("myaddress").innerHTML
-      console.log(myaddress)
-      var ob = getLatLong(myaddress)
+      // var ob = getLatLong(myaddress)
       // console.log(ob)
       var map = new mapboxgl.Map({
         container: "map", // container id
@@ -114,44 +109,6 @@
             "Content-Type": "application/json"
           },
           body: JSON.stringify({ coordinate: coor, area: rounded_area })
-        });
-
-      }
-
-      function getLatLong(address){
-        var platform = new H.service.Platform({
-          'apikey': "SwDJ59x3TPwJ50nKgrdw1mK_yU0t4NbxEZXw0MaP4gw"
-        });
-        
-        var maptypes = platform.createDefaultLayers();
-        var map = new H.Map(document.getElementById('map'), maptypes.vector.normal.map, {
-        center: {lat: 37.688, lng: 122.036},
-                  zoom: 10
-                });
-
-        // Create the parameters for the geocoding request:
-        var geocodingParams = {
-              searchText: address
-        };
-        console.log("hey")
-        console.log(address)
-        var onResult = function(result) {
-          var locations = result.Response.View[0].Result,
-          position,
-          marker;
-          console.log(locations)
-          return {"lat" : locations[0].Location.DisplayPosition.Latitude, 
-                  "lng" : locations[0].Location.DisplayPosition.Longitude}
-        };
-
-        // Get an instance of the geocoding service:
-        var geocoder = platform.getGeocodingService();
-
-        // Call the geocode method with the geocoding parameters,
-        // the callback and an error callback function (called if a
-        // communication error occurs):
-        geocoder.geocode(geocodingParams, onResult, function(e) {
-          alert(e);
         });
 
       }
