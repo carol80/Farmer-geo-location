@@ -49,7 +49,7 @@ app.get('/', function(request, response){
     // })
 })
 
-app.post('/generate_form', (req, res) => {
+app.post('/', (req, res) => {
     var result = {
         "village" : req.body.village,
         "survey_no" : req.body.survey_no,
@@ -65,13 +65,11 @@ app.post('/generate_form', (req, res) => {
 
     database.ref('pending/'+ "whatsapp:" + req.body.phone).set(result);
 
-    var addressesArray = req.body.address
-    for (var x = 0; x < addressesArray.length; x++) {
-        $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address='+addressesArray[x]+'&sensor=false', null, function (data) {
-          var p = data.results[0].geometry.location
-        });
-    }
 
+// Write function to get lat and lang Passs address 
+    var data ={
+      address : req.body.address
+    }
     console.log(data)
     res.render('index',data)
 })
