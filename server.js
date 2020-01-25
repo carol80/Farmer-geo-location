@@ -2,6 +2,7 @@ var express = require('express')
 var logger = require('morgan')
 var bodyParser = require('body-parser')
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
+const session = require('express-session');
 const http = require('http');
 
 var admin = require('firebase-admin')
@@ -25,7 +26,7 @@ app.set('view engine', 'ejs')
 
 // We also want to send css, images, and other static files
 app.use(express.static('views'))
-// app.set('views', __dirname + '/views')
+app.set('views', __dirname + '/views')
 
 // Give the server access to the user input
 app.use(bodyParser.json())
@@ -48,27 +49,32 @@ app.get('/', function(request, response){
     // })
 })
 
-app.post('/', (req, res) => {
-    // var result = {
-    //     "village" : req.body.village,
-    //     "survey_no" : req.body.survey_no,
-    //     "sub_division_of" : req.body.sub_division_of,
-    //     "taluka" : req.body.taluka,
-    //     "cut_land" : req.body.cut_land,
-    //     "name_of_occupant" : req.body.name_of_occpuant,
-    //     "khata_no" : req.body.khata_no,
-    //     "name_of_the_rent" : req.body.name_of_the_rent,
-    //     "phone" : req.body.From,
-    //     "pending" : "0",
-    // } 
+app.post('/generate_form', (req, res) => {
+    var result = {
+        "village" : req.body.village,
+        "survey_no" : req.body.survey_no,
+        "sub_division_of" : req.body.sub_division_of,
+        "taluka" : req.body.taluka,
+        "address" : req.body.address,
+        "name_of_occupant" : req.body.name_of_occupant,
+        "khata_no" : req.body.khata_no,
+        "name_of_the_rent" : req.body.name_of_the_rent,
+        "phone" : req.body.phone,
+        "pending" : "0"
+    } 
 
-    // database.ref('pending/'+ "whatsapp:" + req.body.phone).set(result);
-  var address = ""
+    database.ref("pending/"+ "whatsapp:" + req.body.phone).set(result);
+
+    // database.ref("seven_one_/" + req.body.From).set(req.body);
+
+    res.render("7-12-doc", { result });
 
 // Write function to get lat and lang Passs address 
-    address = req.body.address
-    console.log(address)
-    res.render('index',{data : address})
+    // var data ={
+    //   address : req.body.address
+    // }
+    // console.log(data)
+    // res.render('index',data = data.address)
 })
 
 app.get("/getmap", function(req, res) {
@@ -86,21 +92,21 @@ app.post("/saveCoordinate", function(req, res) {
   var whatsapp = "+919594246827";
   var setDoc = database
     .ref("pending/" + whatsapp)
-    .set({ coordinates: req.body.coordinate, area: req.body.area });
+    .update({ coordinates: req.body.coordinate, area: req.body.area });
   console.log(req.body);
 });
 
-app.post("/farm_result", function(req, res) {
-  let whatsapp = req.body.submit;
-  console.log(whatsapp);
-  database.ref("pending/" + whatsapp).once("value", function(result) {
-    var farm_details = result.val();
-    console.log(farm_details);
-    res.render("farm_result", mydata = farm_details);
-  });
-});
+// app.post("/farm_result", function(req, res) {
+//   let whatsapp = req.body.submit;
+//   console.log(whatsapp);
+//   database.ref("pending/" + whatsapp).once("value", function(result) {
+//     var farm_details = result.val();
+//     console.log(farm_details);
+//     res.render("farm_result", mydata = farm_details);
+//   });
+// });
 
-// app.use(session({secret: 'anything-you-want-but-keep-secret'}));
+app.use(session({secret: 'anything-you-want-but-keep-secret'}));
 
 
 //global variable//
