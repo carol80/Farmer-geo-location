@@ -8,6 +8,10 @@
       content="initial-scale=1,maximum-scale=1,user-scalable=no"
     />
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+        <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+        <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+        <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
     <link
       href="https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css"
       rel="stylesheet"
@@ -52,20 +56,28 @@
       href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css"
       type="text/css"
     />
+    <div id="myaddress"><%=data%></div>
     <div id="map"></div>
     <div class="calculation-box">
       <p>Draw a polygon using the draw tools.</p>
       <div id="calculated-area"></div>
     </div>
-
+    
     <script>
-      mapboxgl.accessToken =
+       mapboxgl.accessToken =
         "pk.eyJ1IjoidHh0ciIsImEiOiJjazRmZTNldm4wbmZpM21uYW43Z292NmozIn0.9GHxkIq6wJ3I5LQBMMVedQ";
+
+      
+      var myaddress = document.getElementById("myaddress").innerHTML
+      console.log(myaddress)
+      // var ob = getLatLong(myaddress)
+      // console.log(ob)
       var map = new mapboxgl.Map({
         container: "map", // container id
         style: "mapbox://styles/mapbox/satellite-v9", //hosted style id
-        center: [ getLatLong().lng , getLatLong().lat ], // starting position
-        zoom: 12 // starting zoom
+        // center: [ ob.lng , ob.lat ], // starting position
+        center: [ 72.993477 , 19.157934],
+        zoom: 17// starting zoom
       });
 
       var draw = new MapboxDraw({
@@ -106,9 +118,8 @@
         });
 
       }
-    </script>
-    <script>
-      function getLatLong(<%= address %>){
+
+      function getLatLong(address){
         var platform = new H.service.Platform({
           'apikey': "SwDJ59x3TPwJ50nKgrdw1mK_yU0t4NbxEZXw0MaP4gw"
         });
@@ -121,16 +132,17 @@
 
         // Create the parameters for the geocoding request:
         var geocodingParams = {
-              searchText: <%= address %>
+              searchText: address
         };
-        console.log( <%= address %>)
+        console.log("hey")
+        console.log(address)
         var onResult = function(result) {
           var locations = result.Response.View[0].Result,
           position,
           marker;
-
-          return {"lat" : locations[i].Location.DisplayPosition.Latitude, 
-                  "lng" : locations[i].Location.DisplayPosition.Longitude}
+          console.log(locations)
+          return {"lat" : locations[0].Location.DisplayPosition.Latitude, 
+                  "lng" : locations[0].Location.DisplayPosition.Longitude}
         };
 
         // Get an instance of the geocoding service:
@@ -142,8 +154,10 @@
         geocoder.geocode(geocodingParams, onResult, function(e) {
           alert(e);
         });
-
+        console.log(geocoder)
       }
+
+      
      
 
     </script>
